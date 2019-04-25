@@ -1,0 +1,28 @@
+---
+- name: download helm
+  unarchive: 
+    src: "{{ helm_url }}"
+    dest: /tmp
+    copy: no
+  tags: download
+
+- name: create the installation directory
+  file:
+    path: "{{ helm_bin_dir }}"
+    state: directory
+
+- name: copy helm binary
+  copy:
+    src: /tmp/linux-amd64/helm
+    dest: "{{ helm_bin_dir }}"
+    mode: 0755
+    remote_src: yes
+
+- name: create helm soft link
+  file:
+    src: "{{ helm_bin_dir }}/helm"
+    dest: "/usr/bin/helm"
+    state: link
+
+- include_tasks: tiller.yml
+- include_tasks: rbac.yml

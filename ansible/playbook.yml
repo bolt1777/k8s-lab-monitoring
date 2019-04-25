@@ -2,4 +2,6 @@
 - hosts: k8s
   become: yes
   roles:
+    - common
     - minikube
+    - helm

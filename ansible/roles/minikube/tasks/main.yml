@@ -63,6 +63,7 @@
 - name: Start Minikube with option vm-driver=none
   shell: /usr/local/bin/minikube start --vm-driver=none
   become: true
+  run_once: true
 
 - name: After minikube configuration, we check minikube status
   shell: /usr/local/bin/minikube status
