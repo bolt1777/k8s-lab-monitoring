@@ -1,0 +1,75 @@
+---
+- name: install packages for docker
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - device-mapper-persistent-data
+    - lvm2
+  
+- name: download repository file
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+
+- name: install docker
+  yum:
+    name: "docker-ce-{{ docker_version }}"
+
+- name: create kubernetes repository file
+  copy:
+    src: kubernetes.repo
+    dest: /etc/yum.repos.d/kubernetes.repo
+
+- name: install kubectl
+  yum:
+    name: kubectl
+
+- name: start docker
+  systemd: 
+    name: docker
+    state: started
+    enabled: yes
+
+- name: download minikube
+  get_url:
+    url: "https://storage.googleapis.com/minikube/releases/{{ minikube_version }}/minikube-linux-amd64"
+    dest: /usr/local/bin/minikube
+    mode: 0755
+
+- name: download kubectl 
+  get_url:
+    url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_release }}/bin/{{ ansible_system | lower }}/amd64/kubectl"
+    dest: /usr/local/bin/kubectl
+    mode: 0755
+
+- name: Setup the directory for storing Minikube and kubectl configuration.
+  shell: mkdir $HOME/.kube || true
+  become: true
+
+- name: Create empty file(config) under directory.
+  shell: touch $HOME/.kube/config
+  become: true
+
+- name: copy these configuration  line
+  shell: |
+        echo 'export MINIKUBE_WANTUPDATENOTIFICATION=false' >> ~/.profile,
+        echo 'export MINIKUBE_WANTREPORTERRORPROMPT=false' >> ~/.profile
+        echo 'export MINIKUBE_HOME=$HOME' >> ~/.profile
+        echo 'export CHANGE_MINIKUBE_NONE_USER=true' >> ~/.profile
+        echo 'export KUBECONFIG=$HOME/.kube/config' >> ~/.profile
+  become: true
+
+- name: Start Minikube with option vm-driver=none
+  shell: /usr/local/bin/minikube start --vm-driver=none
+  become: true
+
+- name: After minikube configuration, we check minikube status
+  shell: /usr/local/bin/minikube status
+  args:
+    executable: /bin/bash
+  register: minikube_status
+  become: true
+  until: "'minikube' and 'Running' in minikube_status.stdout"
+  delay: 30
+  retries: 10
