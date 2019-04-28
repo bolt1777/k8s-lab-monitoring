@@ -10,9 +10,9 @@ Vagrant.configure("2") do |config|
   config.vm.define:"k8s-minikub"
   config.vm.hostname = "k8s-minikub"
 
-  config.hostmanager.enabled = true
-  config.hostmanager.manage_host = true
-  config.hostmanager.manage_guest = true
+#  config.hostmanager.enabled = true
+#  config.hostmanager.manage_host = true
+#  config.hostmanager.manage_guest = true
   
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "8096"
