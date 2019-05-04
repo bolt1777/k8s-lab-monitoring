@@ -1,4 +1,4 @@
-# Vagrant Kafka Lab
+# Vagrant Minikube Lab
 
 ## Web UIs
 
