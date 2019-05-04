@@ -5,6 +5,9 @@
 - name: "Deploy monitoring in cluster"
   shell: kubectl apply -f /tmp/manifests
 
+- name: "Deploy Prometheus instance"
+  shell: kubectl apply -f /tmp/03_prometheus-k8s.yaml
+
 - name: "Add Prometheus scrape job"
   shell: kubectl apply -f /tmp/scrape-job-kube-state-metrics.yaml
 
