@@ -18,19 +18,19 @@ vagrant up
 
 To access Grafana dashboard, use admin/admin login credentials, add Prometheus data source - http://prometheus:9090, and load the [dashboard](doc/kubernetes-cluster-prometheus_rev1.json) provided in the doc folder
 
-## Ansible Role Setup
+# Ansible Role Setup
 
-- The role minikube:
-Deploys Minikube cluster which responds to Kubernetes API requests
-- The role monitoring brings manifests to do the following tasks:
-Run Prometheus Operator (https://github.com/coreos/prometheus-operator)
-Deploy kube-state-metrics (https://github.com/kubernetes/kube-state-metrics)
-Deploy Ingress Nginx in cluster (https://github.com/kubernetes/ingress-nginx)
-Create Prometheus instance 
-Add Prometheus scrape job (via Kubernetes CRD created by Prometheus Operator) for kube-state-metrics
-Deploy Grafana 
-Add dashboard for kube-state-metrics
-Expose Grafana via ingress
+## The role minikube:
+###Deploys Minikube cluster which responds to Kubernetes API requests
+## The role monitoring brings manifests to do the following tasks:
+###Run Prometheus Operator (https://github.com/coreos/prometheus-operator)
+###Deploy kube-state-metrics (https://github.com/kubernetes/kube-state-metrics)
+###Deploy Ingress Nginx in cluster (https://github.com/kubernetes/ingress-nginx)
+###Create Prometheus instance 
+###Add Prometheus scrape job (via Kubernetes CRD created by Prometheus Operator) for kube-state-metrics
+###Deploy Grafana 
+###Add dashboard for kube-state-metrics
+###Expose Grafana via ingress
 
 ## Vagrant usage
 
