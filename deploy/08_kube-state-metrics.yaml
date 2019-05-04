@@ -1,0 +1,29 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kube-state-metrics
+  labels:
+    prometheus-app: kube-state-metrics
+spec:
+  jobLabel: prometheus-app
+  selector:
+    matchLabels:
+      prometheus-app: kube-state-metrics
+  namespaceSelector:
+    matchNames:
+    - default
+    - kube-system
+  endpoints:
+  - port: https-main
+    scheme: https
+    interval: 30s
+    honorLabels: true
+    bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    tlsConfig:
+      insecureSkipVerify: true
+  - port: https-self
+    scheme: https
+    interval: 30s
+    bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    tlsConfig:
+      insecureSkipVerify: true

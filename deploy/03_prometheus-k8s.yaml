@@ -1,0 +1,40 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: k8s
+  labels:
+    prometheus: k8s
+spec:
+  replicas: 1
+  version: v2.9.2
+  serviceAccountName: prometheus-operator
+  serviceMonitorSelector:
+    matchExpressions:
+    - {key: k8s-app, operator: Exists}
+  ruleSelector:
+    matchLabels:
+      role: prometheus-rulefiles
+      prometheus: k8s
+  resources:
+    requests:
+      # 2Gi is default, but won't schedule if you don't have a node with >2Gi
+      # memory. Modify based on your target and time-series count for
+      # production use. This value is mainly meant for demonstration/testing
+      # purposes.
+      memory: 400Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s
+spec:
+  type: NodePort
+  ports:
+  - name: web
+    nodePort: 30900
+    port: 9090
+    protocol: TCP
+    targetPort: web
+  selector:
+    prometheus: k8s
+

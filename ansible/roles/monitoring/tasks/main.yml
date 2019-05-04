@@ -1,0 +1,9 @@
+---
+- name: "copy manifests to Minikube"
+  copy: src=files/ dest=/tmp/
+
+- name: "Deploy monitoring in cluster"
+  shell: kubectl apply -f /tmp/manifests
+
+- name: "Enable Ingress Minikube"
+  shell: minikube addons enable ingress
