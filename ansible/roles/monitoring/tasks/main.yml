@@ -5,5 +5,9 @@
 - name: "Deploy monitoring in cluster"
   shell: kubectl apply -f /tmp/manifests
 
+- name: "Add Prometheus scrape job"
+  shell: kubectl apply -f /tmp/scrape-job-kube-state-metrics.yaml
+
 - name: "Enable Ingress Minikube"
-  shell: minikube addons enable ingress
+  shell: /usr/local/bin/minikube addons enable ingress
+ 
