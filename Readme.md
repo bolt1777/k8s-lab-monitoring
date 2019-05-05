@@ -41,3 +41,5 @@ To log on to Minikube cluster, use vagrant ssh
 vagrant ssh k8s-minikub
 ``
 
+## Note:
+	- There are some timeouts setup, especially the one which waits while Grafana is deployed and running, it's 300 seconds and then ansible loads dashboard and data source. Please be patient and if anything goes wrong, load the dashboard from the doc folder and add Prometheus to data source http://prometheus:9090
