@@ -20,9 +20,10 @@ To access Grafana dashboard, use admin/admin login credentials.
 
 # Ansible Role Setup
 
-+ The role minikube:
++ The role **minikube**:
 	- Deploys Minikube cluster which responds to Kubernetes API requests
-+ The role monitoring brings manifests to do the following tasks:
+
++ The role **monitoring** brings manifests to do the following tasks:
 	- Run Prometheus Operator (https://github.com/coreos/prometheus-operator)
 	- Deploy kube-state-metrics (https://github.com/kubernetes/kube-state-metrics)
 	- Deploy Ingress Nginx in cluster (https://github.com/kubernetes/ingress-nginx)
