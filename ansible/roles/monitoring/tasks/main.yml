@@ -1,4 +1,48 @@
 ---
+- name: "copy manifests to Minikube"
+  copy: src=files/ dest=/tmp/
+
+- name: "Run PO in cluster"
+  shell: kubectl apply -f /tmp/prometheus-operator
+
+- name: "Deploy Kube-state-metrics" 
+  shell: kubectl apply -f /tmp/kube-state-metrics
+
+- name: "Deploy Ingress"
+  shell: kubectl apply -f /tmp/manifests
+
+- name: "Enable Ingress Minikube"
+  shell: /usr/local/bin/minikube addons enable ingress
+
+- name: "Wait for Promethes Operator running"
+  wait_for: timeout=1
+
+- name: "Deploy Prometheus instance"
+  shell: kubectl apply -f /tmp/prometheus
+
+- name: "Add Prometheus scrape job"
+  shell: kubectl apply -f /tmp/scrape-job-kube-state-metrics.yaml
+
+- name: "Deploy Grafana with Dashboard included"
+  shell: kubectl apply -f /tmp/grafana
+
+- name: "Wait for Promethes Operator running"
+  wait_for: timeout=1
+
+- name: "Copy dashboard"
+  copy: src=templates dest=/tmp/
+
+- name: Create prometheus datasource
+  grafana_datasource:
+    name: "prometheus"
+    grafana_url: "https://k8s-minikub"
+    grafana_user: "admin"
+    grafana_password: "admin"
+    org_id: "1"
+    ds_type: "prometheus"
+    url: "https://prometheus:9090"
+    validate_certs: no
+
 - name: Import grafana dashboards through API
   uri:
     url: "https://k8s-minikub/api/dashboards/db"
