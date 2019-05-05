@@ -38,7 +38,6 @@
     grafana_url: "https://k8s-minikub"
     grafana_user: "admin"
     grafana_password: "admin"
-    org_id: "1"
     ds_type: "prometheus"
     url: "https://prometheus:9090"
     validate_certs: no
