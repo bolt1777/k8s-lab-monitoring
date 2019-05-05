@@ -15,7 +15,7 @@
   shell: /usr/local/bin/minikube addons enable ingress
 
 - name: "Wait for Promethes Operator running"
-  wait_for: timeout=1
+  wait_for: timeout=30
 
 - name: "Deploy Prometheus instance"
   shell: kubectl apply -f /tmp/prometheus
@@ -27,7 +27,7 @@
   shell: kubectl apply -f /tmp/grafana
 
 - name: "Wait for Promethes Operator running"
-  wait_for: timeout=1
+  wait_for: timeout=20
 
 - name: "Copy dashboard"
   copy: src=templates dest=/tmp/
