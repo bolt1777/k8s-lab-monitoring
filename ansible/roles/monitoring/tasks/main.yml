@@ -26,11 +26,8 @@
 - name: "Deploy Grafana with Dashboard included"
   shell: kubectl apply -f /tmp/grafana
 
-- name: "Wait for Promethes Operator running"
-  wait_for: timeout=20
-
-- name: "Copy dashboard"
-  copy: src=templates dest=/tmp/
+- name: "Wait Grafana running"
+  wait_for: timeout=50
 
 - name: Create prometheus datasource
   grafana_datasource:
@@ -39,7 +36,7 @@
     grafana_user: "admin"
     grafana_password: "admin"
     ds_type: "prometheus"
-    url: "https://prometheus:9090"
+    url: "http://prometheus:9090"
     validate_certs: no
 
 - name: Import grafana dashboards through API
