@@ -15,7 +15,7 @@
   shell: /usr/local/bin/minikube addons enable ingress
 
 - name: "Wait for Promethes Operator running"
-  wait_for: timeout=1
+  wait_for: timeout=20
 
 - name: "Deploy Prometheus instance"
   shell: kubectl apply -f /tmp/prometheus
@@ -27,7 +27,7 @@
   shell: kubectl apply -f /tmp/grafana
 
 - name: "Wait for Promethes Operator running"
-  wait_for: timeout=1
+  wait_for: timeout=20
 
 - name: "Copy dashboard"
   copy: src=templates dest=/tmp/
@@ -38,25 +38,6 @@
     grafana_url: "https://k8s-minikub"
     grafana_user: "admin"
     grafana_password: "admin"
-    org_id: "1"
     ds_type: "prometheus"
     url: "https://prometheus:9090"
     validate_certs: no
-
-- name: Import grafana dashboards through API
-  uri:
-    url: "https://k8s-minikub/api/dashboards/db"
-    user: "admin"
-    password: "admin"
-    force_basic_auth: true
-    method: POST
-    validate_certs: no
-    body_format: json
-    body: >
-      {
-        "dashboard": {{ lookup("file", item) }},
-        "overwrite": true,
-        "message": "Updated by ansible"
-      }
-  with_fileglob:
-    - "templates/*.json"

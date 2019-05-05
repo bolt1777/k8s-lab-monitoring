@@ -7,6 +7,10 @@
     - device-mapper-persistent-data
     - lvm2
   
+- name: Disable SWAP since kubernetes can't work with swap enabled (1/2)
+  shell: |
+    swapoff -a
+
 - name: download repository file
   get_url:
     url: https://download.docker.com/linux/centos/docker-ce.repo
@@ -50,6 +54,9 @@
 - name: Create empty file(config) under directory.
   shell: touch $HOME/.kube/config
   become: true
+
+- name: Added a sysctl setting
+  shell: sysctl net.bridge.bridge-nf-call-iptables=1
 
 - name: copy these configuration  line
   shell: |
