@@ -30,6 +30,8 @@
   wait_for: timeout=300
 
 - name: Create prometheus datasource
+  retries: 20
+  delay: 30
   grafana_datasource:
     name: "prometheus"
     grafana_url: "https://k8s-minikub"
@@ -40,6 +42,8 @@
     validate_certs: no
 
 - name: Import grafana dashboards through API
+  retries: 20
+  delay: 30
   uri:
     url: "https://k8s-minikub/api/dashboards/db"
     user: "admin"
