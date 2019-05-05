@@ -27,7 +27,7 @@
   shell: kubectl apply -f /tmp/grafana
 
 - name: "Wait Grafana running"
-  wait_for: timeout=50
+  wait_for: timeout=300
 
 - name: Create prometheus datasource
   grafana_datasource:
