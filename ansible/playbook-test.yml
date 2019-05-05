@@ -1,5 +1,0 @@
----
-- hosts: k8s
-  become: yes
-  roles:
-    - monitoring
