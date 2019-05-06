@@ -18,6 +18,9 @@ vagrant up
 
 To access Grafana dashboard, use admin/admin login credentials.
 
+## Note:
+- There are some timeouts setup, especially the one which waits while Grafana is deployed and running, it's 300 seconds and then Ansible imports dashboard and data source. Please be patient and if anything goes wrong, load the [dashboard](doc/dashboard1.json) from the doc folder and add Prometheus to data source http://prometheus:9090
+
 # Ansible Role Setup
 
 + The role **minikube**:
@@ -40,6 +43,3 @@ To log on to Minikube cluster, use vagrant ssh
 ``
 vagrant ssh k8s-minikub
 ``
-
-## Note:
-- There are some timeouts setup, especially the one which waits while Grafana is deployed and running, it's 300 seconds and then Ansible imports dashboard and data source. Please be patient and if anything goes wrong, load the [dashboard](doc/dashboard1.json) from the doc folder and add Prometheus to data source http://prometheus:9090

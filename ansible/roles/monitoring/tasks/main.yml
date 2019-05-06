@@ -1,6 +1,6 @@
 ---
 - name: "copy manifests to Minikube"
-  copy: src=files/ dest=/tmp/
+  copy: src=manifests/ dest=/tmp/
 
 - name: "Run PO in cluster"
   shell: kubectl apply -f /tmp/prometheus-operator
@@ -9,7 +9,7 @@
   shell: kubectl apply -f /tmp/kube-state-metrics
 
 - name: "Deploy Ingress"
-  shell: kubectl apply -f /tmp/manifests
+  shell: kubectl apply -f /tmp/ingress-nginx
 
 - name: "Enable Ingress Minikube"
   shell: /usr/local/bin/minikube addons enable ingress
@@ -59,4 +59,4 @@
         "message": "Updated by ansible"
       }
   with_fileglob:
-    - "templates/*.json"
+    - "grafana-dashboards/*.json"
